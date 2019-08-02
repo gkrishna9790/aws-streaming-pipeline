@@ -17,3 +17,14 @@ Inorder to build your first, Kinesis Stream:
    2. Under Kinesis data streams, click on '**Create data stream**'
    3. Name your first Kinesis stream (please provide some meaningful name)
    4. Add the number of shards required in the bottom section of the page as shown below: 
+   ![KDS](https://github.com/gkrishna9790/aws-streaming-pipeline/blob/master/images/kds.JPG)
+   5. Click on 'Create Kinesis Stream' button 
+   
+   ***Note:*** *Each shard can support upto 1000 records per second, with a maximum write capacity of 1 MB of data per second, and read data at a rate of*
+   *2 MB per second. Depending on the estimated size of data that flows in, configure the number of shards required.* 
+   
+   ***For the purpose of this demo, a single shard should suffice.***
+   
+   Now you have a fully functional Kinesis stream capable of ingesting real-time data. Yaaay !!! Each stream can retain the data for a default periof of 24 hours, which can be increased upto 7 days at an extra cost. 
+   
+   
