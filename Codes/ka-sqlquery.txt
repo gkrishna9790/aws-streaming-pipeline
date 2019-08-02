@@ -1,0 +1,38 @@
+-- CREATING THE S3 DESTINATION SQL STREAM --
+
+CREATE OR REPLACE STREAM "DESTINATION_SQL_S3_STREAM" (
+	USER_ID VARCHAR(32),
+	Action_timestamp TIMESTAMP,
+	Action VARCHAR(64),
+	Device VARCHAR(16),
+	theyear int,
+	themonth int,
+	theday int,
+	thehour int);
+
+CREATE OR REPLACE PUMP "S3_STREAM_PUMP" AS INSERT INTO "DESTINATION_SQL_S3_STREAM"
+
+SELECT STREAM "user_id",
+		"time_stamp",
+		"Action",
+		"Device",
+		extract(YEAR from CAST(("time_stamp") AS DATE)),
+		extract(MONTH from CAST(("time_stamp") AS DATE)),
+		extract(DAY from CAST(("time_stamp") AS DATE)),
+		extract(HOUR from CAST(("time_stamp") AS TIME))
+FROM "SOURCE_SQL_STREAM_001";
+
+-- CREATING THE ELASTIC SEARCH DELIVERY STREAM --
+CREATE OR REPLACE STREAM "DESTINATION_SQL_ES_STREAM" (
+	USER_ID VARCHAR(32),
+	Action_timestamp TIMESTAMP,
+	Action VARCHAR(64),
+	Device VARCHAR(16));
+
+CREATE OR REPLACE PUMP "ES_STREAM_PUMP" AS INSERT INTO "DESTINATION_SQL_ES_STREAM"
+
+SELECT STREAM "user_id",
+		"time_stamp",
+		"Action",
+		"Device"
+FROM "SOURCE_SQL_STREAM_001"
